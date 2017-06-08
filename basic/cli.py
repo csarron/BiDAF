@@ -18,7 +18,7 @@ flags.DEFINE_string("load_path", "", "Load path []")
 flags.DEFINE_string("shared_path", "", "Shared path []")
 
 # Device placement
-flags.DEFINE_string("device", "/cpu:0", "default device for summing gradients. [/cpu:0]")
+flags.DEFINE_string("device", "/gpu:0", "default device for summing gradients. [/cpu:0]")
 flags.DEFINE_string("device_type", "gpu", "device for computing gradients (parallelization). cpu | gpu [gpu]")
 flags.DEFINE_integer("num_gpus", 1, "num of gpus or cpus for computing gradients [1]")
 
