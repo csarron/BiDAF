@@ -55,6 +55,7 @@ def maybe_download_data():
 
     if not glove_txt_files:
         glove_6b_file = os.path.join(data_path, glove_6b)
+        print("Extracting {}...".format(glove_6b_file))
         with zipfile.ZipFile(glove_6b_file, "r") as zip_ref:
             zip_ref.extractall(data_path)
             print("{} extracted".format(glove_6b))
