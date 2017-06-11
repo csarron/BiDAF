@@ -32,8 +32,15 @@ def _dl_progress(count, block_size, total_size):
 
 def maybe_download_data():
     print("preparing data...")
+    glove_txt_files = glob.glob(os.path.join(data_path, "glove.6B.*.txt"))
+    if glove_txt_files:
+        file_names = [train, dev]
+        base_urls = [squad_base_url, squad_base_url]
+    else:
+        file_names = [train, dev, glove_6b]
+        base_urls = [squad_base_url, squad_base_url, glove_base_url]
 
-    for data_name, base_url in zip([train, dev, glove_6b], [squad_base_url, squad_base_url, glove_base_url]):
+    for data_name, base_url in zip(file_names, base_urls):
         data_file = os.path.join(data_path, data_name)
         if os.path.exists(data_file):
             print("{} already downloaded".format(data_name))
@@ -46,7 +53,6 @@ def maybe_download_data():
             print("\n{} downloaded".format(data_name))
             prettify_json(data_file)
 
-    glove_txt_files = glob.glob(os.path.join(data_path, "glove.6B.*.txt"))
     if not glove_txt_files:
         glove_6b_file = os.path.join(data_path, glove_6b)
         with zipfile.ZipFile(glove_6b_file, "r") as zip_ref:
@@ -106,20 +112,21 @@ def prepare_each(args, data_type, start_ratio=0.0, stop_ratio=1.0, out_name="def
     word_counter, char_counter, lower_word_counter = Counter(), Counter(), Counter()
     start_ai = int(round(len(source_data['data']) * start_ratio))
     stop_ai = int(round(len(source_data['data']) * stop_ratio))
-    for ai, article in enumerate(tqdm(source_data['data'][start_ai:stop_ai])):
+    for article_index, article in enumerate(tqdm(source_data['data'][start_ai:stop_ai])):
         xp, cxp = [], []
         pp = []
         x.append(xp)
         cx.append(cxp)
         p.append(pp)
-        for pi, para in enumerate(article['paragraphs']):
+        for paragraph_index, paragraph in enumerate(article['paragraphs']):
             # wordss
-            context = para['context']
+            context = paragraph['context']
             context = context.replace("''", '" ')
             context = context.replace("``", '" ')
+            # xi is 2d list, 1st d is sentence, 2nd d is tokenized words
             xi = list(map(word_tokenize, nltk.sent_tokenize(context)))
             xi = [process_tokens(tokens) for tokens in xi]  # process tokens
-            # given xi, add chars
+            # given xi, add chars, cxi is 3d list, char - level
             cxi = [[list(xijk) for xijk in xij] for xij in xi]
             xp.append(xi)
             cxp.append(cxi)
@@ -127,15 +134,15 @@ def prepare_each(args, data_type, start_ratio=0.0, stop_ratio=1.0, out_name="def
 
             for xij in xi:
                 for xijk in xij:
-                    word_counter[xijk] += len(para['qas'])
-                    lower_word_counter[xijk.lower()] += len(para['qas'])
+                    word_counter[xijk] += len(paragraph['qas'])
+                    lower_word_counter[xijk.lower()] += len(paragraph['qas'])
                     for xijkl in xijk:
-                        char_counter[xijkl] += len(para['qas'])
+                        char_counter[xijkl] += len(paragraph['qas'])
 
-            rxi = [ai, pi]
-            assert len(x) - 1 == ai
-            assert len(x[ai]) - 1 == pi
-            for qa in para['qas']:
+            rxi = [article_index, paragraph_index]
+            assert len(x) - 1 == article_index
+            assert len(x[article_index]) - 1 == paragraph_index
+            for qa in paragraph['qas']:
                 # get words
                 qi = word_tokenize(qa['question'])
                 qi = process_tokens(qi)
@@ -241,6 +248,6 @@ def prettify_json_files():
 
 if __name__ == '__main__':
     maybe_download_data()
-    # prepare_data(get_args())
+    prepare_data(get_args())
     print("all data prepared\n")
     prettify_json_files()
