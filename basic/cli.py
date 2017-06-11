@@ -34,7 +34,7 @@ flags.DEFINE_bool("na", False, "Enable no answer strategy and learn bias? [False
 flags.DEFINE_float("th", 0.5, "Threshold [0.5]")
 
 # Training / test parameters
-flags.DEFINE_integer("batch_size", 60, "Batch size [60]")
+flags.DEFINE_integer("batch_size", 40, "Batch size [40]")
 flags.DEFINE_integer("val_num_batches", 100, "validation num batches [100]")
 flags.DEFINE_integer("test_num_batches", 0, "test num batches [0]")
 flags.DEFINE_integer("num_epochs", 12, "Total number of epochs for training [12]")
