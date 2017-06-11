@@ -1,6 +1,6 @@
 .idea/
 data/
-model/
+out/
 *__pychche__*
 *.pyc
 *.pyo
