@@ -19,9 +19,9 @@ so if you want to use them, go to [v0.2.1][v0.2.1].
 
 ## 1. Pre-processing
 First, prepare data. Donwload SQuAD data and GloVe and nltk corpus
-(~850 MB, this will download files to `$HOME/data`):
+(~850 MB, this will download files to `data/`):
 ```
-chmod +x download.sh; ./download.sh
+python3 prepare.py
 ```
 
 Second, Preprocess Stanford QA dataset (along with GloVe vectors) and save them in `$PWD/data/squad` (~5 minutes):
