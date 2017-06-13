@@ -51,7 +51,7 @@ def maybe_download_data():
                 os.mkdir(data_path)
             urllib.request.urlretrieve(os.path.join(base_url, data_name), data_file, reporthook=_dl_progress)
             print("\n{} downloaded".format(data_name))
-            prettify_json(data_file)
+            # prettify_json(data_file)
 
     if not glove_txt_files:
         glove_6b_file = os.path.join(data_path, glove_6b)
@@ -221,7 +221,8 @@ def prepare_data(args):
     if args.mode == 'full':
         prepare_each(args, train, out_name='train')
         prepare_each(args, dev, out_name='dev')
-        copyfile('data/data_dev.json', 'test')
+        copyfile('data/data_dev.json', 'data/data_test.json')
+        copyfile('data/shared_dev.json', 'data/shared_test.json')
     else:
         prepare_each(args, train, 0.0, args.train_ratio, out_name='train')
         prepare_each(args, train, args.train_ratio, 1.0, out_name='dev')
