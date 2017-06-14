@@ -17,7 +17,7 @@ class GraphHandler(object):
         self.model = model
         self.saver = tf.train.Saver(max_to_keep=config.max_to_keep)
         self.writer = None
-        self.save_path = os.path.join(config.save_dir, config.model_name, ".ckpt")
+        self.save_path = os.path.join(config.save_dir, "best.ckpt")
 
     def initialize(self, sess):
         sess.run(tf.global_variables_initializer())

@@ -32,11 +32,11 @@ def freeze_graph(config):
         saver.restore(sess, checkpoint_file)
         print("model loaded")
         output_graph_def = graph_util.convert_variables_to_constants(
-            sess, input_graph_def, output_node_names=output_names.split(","))
+            sess, input_graph_def, output_node_names=output_names)
 
         if input_names is not None:
-            output_graph_def = opt_inference(output_graph_def, input_names.split(","),
-                                             output_names.split(","), dtypes.float32.as_datatype_enum)
+            output_graph_def = opt_inference(output_graph_def, input_names,
+                                             output_names, dtypes.float32.as_datatype_enum)
 
         with tf.gfile.GFile(frozen_model_path, "wb") as f:
             f.write(output_graph_def.SerializeToString())
@@ -52,11 +52,15 @@ def freeze_graph(config):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--clear_device", type=bool, default=False,
+    parser.add_argument("--clear_device", type=bool, default=True,
                         help="whether clear device or not, default is false")
-    parser.add_argument("--input_path", type=str, default="data/basic/00/best",
-                        help="path to the output frozen model, default is `pwd`/data/basic/00/best")
+    parser.add_argument("--input_path", type=str, default="data/basic/00/save/best.ckpt",
+                        help="path to the output frozen model, default is `pwd`/data/basic/00/save/best.ckpt")
     parser.add_argument("--output_path", type=str, default="model",
                         help="path to the output frozen model, default is `pwd`/model/")
+    parser.add_argument("--input_names", type=str, default=None,
+                        help="input_names of the model, default is None")
+    parser.add_argument("--output_names", type=str, default=None,
+                        help="output_names of the model, default is None")
     args = parser.parse_args()
     freeze_graph(args)
