@@ -131,9 +131,12 @@ def _train(config):
                 print("end dumping")
 
     print("begin freezing model...")
+
     config.clear_device = False
     config.input_path = graph_handler.save_path
     config.output_path = "model"
+    config.input_names = None
+
     freeze_graph(config)
     print("model frozen at {}".format(config.output_path))
 
