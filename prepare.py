@@ -126,7 +126,7 @@ def prepare_each(args, data_type, start_ratio=0.0, stop_ratio=1.0, out_name="def
             context = context.replace("''", '" ')
             context = context.replace("``", '" ')
             # xi is 2d list, 1st d is sentence, 2nd d is tokenized words
-            xi = list(map(word_tokenize, nltk.sent_tokenize(context)))
+            xi = list(map(word_tokenize, sent_tokenize(context)))
             xi = [process_tokens(tokens) for tokens in xi]  # process tokens
             # given xi, add chars, cxi is 3d list, char - level
             cxi = [[list(xijk) for xijk in xij] for xij in xi]
