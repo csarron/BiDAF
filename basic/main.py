@@ -136,6 +136,7 @@ def _train(config):
     config.input_path = graph_handler.save_path
     config.output_path = "model"
     config.input_names = None
+    config.output_names = None
 
     freeze_graph(config)
     print("model frozen at {}".format(config.output_path))

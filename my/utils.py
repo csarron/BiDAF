@@ -58,7 +58,6 @@ def argmax(x):
     return np.unravel_index(x.argmax(), x.shape)
 
 
-
 def prettify_json(f):
     if not f.endswith(".json"):
         return

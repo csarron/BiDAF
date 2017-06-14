@@ -92,14 +92,15 @@ def get_word2vec(args, word_counter):
             elif word.upper() in word_counter:
                 word2vec_dict[word.upper()] = vector
 
-    print("{}/{} of word vocab have corresponding vectors in {}".format(len(word2vec_dict), len(word_counter),
-                                                                        glove_path))
+    print("{}/{} of word vocab have corresponding vectors in {}"
+          .format(len(word2vec_dict), len(word_counter), glove_path))
     return word2vec_dict
 
 
 def prepare_each(args, data_type, start_ratio=0.0, stop_ratio=1.0, out_name="default", in_path=None):
-    # if not args.split:
-    #     sent_tokenize = lambda para: [para]
+    sent_tokenize = nltk.sent_tokenize
+    if not args.split:
+        sent_tokenize = lambda para: [para]
 
     source_path = in_path or os.path.join(data_path, data_type)
     source_data = json.load(open(source_path, 'r'))
@@ -240,6 +241,7 @@ def get_args():
     parser.add_argument("--glove_corpus", default="6B")
     parser.add_argument("--glove_dir", default=data_path)
     parser.add_argument("--glove_vec_size", default=100, type=int)
+    parser.add_argument("--split", action='store_true')
 
     return parser.parse_args()
 
@@ -247,6 +249,7 @@ def get_args():
 def prettify_json_files():
     for f in glob.glob(os.path.join(data_path, "*.json")):
         prettify_json(f)
+
 
 if __name__ == '__main__':
     maybe_download_data()
