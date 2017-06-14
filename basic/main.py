@@ -85,48 +85,50 @@ def _train(config):
     print("num params: {}".format(get_num_params()))
     trainer = MultiGPUTrainer(config, models)
     evaluator = MultiGPUF1Evaluator(config, models, tensor_dict=model.tensor_dict if config.vis else None)
-    graph_handler = GraphHandler(config, model)  # controls all tensors and variables in the graph, including loading /saving
+    # controls all tensors and variables in the graph, including loading /saving
+    graph_handler = GraphHandler(config, model)
 
     # Variables
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
     graph_handler.initialize(sess)
 
     # Begin training
-    num_steps = config.num_steps or int(math.ceil(train_data.num_examples / (config.batch_size * config.num_gpus))) * config.num_epochs
-    global_step = 0
-    for batches in tqdm(train_data.get_multi_batches(config.batch_size, config.num_gpus,
-                                                     num_steps=num_steps, shuffle=True, cluster=config.cluster), total=num_steps):
+    num_steps = config.num_steps or int(math.ceil(train_data.num_examples /
+                                                  (config.batch_size * config.num_gpus))) * config.num_epochs
+    acc = 0
+    for batches in tqdm(train_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps,
+                                                     shuffle=True, cluster=config.cluster),
+                        total=num_steps):
         global_step = sess.run(model.global_step) + 1  # +1 because all calculations are done after step
         get_summary = global_step % config.log_period == 0
         loss, summary, train_op = trainer.step(sess, batches, get_summary=get_summary)
         if get_summary:
             graph_handler.add_summary(summary, global_step)
 
-        # occasional saving
+        # Occasional evaluation and saving
         if global_step % config.save_period == 0:
-            graph_handler.save(sess, global_step=global_step)
-
-        if not config.eval:
-            continue
-        # Occasional evaluation
-        if global_step % config.eval_period == 0:
-            num_steps = math.ceil(dev_data.num_examples / (config.batch_size * config.num_gpus))
+            num_steps = int(math.ceil(dev_data.num_examples / (config.batch_size * config.num_gpus)))
             if 0 < config.val_num_batches < num_steps:
                 num_steps = config.val_num_batches
-            e_train = evaluator.get_evaluation_from_batches(
-                sess, tqdm(train_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps), total=num_steps)
-            )
+            e_train = evaluator.get_evaluation_from_batches(sess, tqdm(train_data.get_multi_batches(
+                config.batch_size, config.num_gpus, num_steps=num_steps), total=num_steps))
             graph_handler.add_summaries(e_train.summaries, global_step)
             e_dev = evaluator.get_evaluation_from_batches(
-                sess, tqdm(dev_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps), total=num_steps))
+                sess, tqdm(dev_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps),
+                           total=num_steps))
             graph_handler.add_summaries(e_dev.summaries, global_step)
 
-            if config.dump_eval:
-                graph_handler.dump_eval(e_dev)
-            if config.dump_answer:
-                graph_handler.dump_answer(e_dev)
-    if global_step % config.save_period != 0:
-        graph_handler.save(sess, global_step=global_step)
+            if e_dev.acc > acc:
+                acc = e_dev.acc
+                print("begin saving model...")
+                print(e_dev)
+                graph_handler.save(sess, global_step=global_step)
+                print("end saving model, dumping eval and answer...")
+                if config.dump_eval:
+                    graph_handler.dump_eval(e_dev)
+                if config.dump_answer:
+                    graph_handler.dump_answer(e_dev)
+                print("end dumping...")
 
 
 def _test(config):
@@ -155,7 +157,8 @@ def _test(config):
         num_steps = config.test_num_batches
 
     e = None
-    for multi_batch in tqdm(test_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps, cluster=config.cluster), total=num_steps):
+    for multi_batch in tqdm(test_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps,
+                                                        cluster=config.cluster), total=num_steps):
         ei = evaluator.get_evaluation(sess, multi_batch)
         e = ei if e is None else e + ei
         if config.vis:
@@ -193,15 +196,16 @@ def _forward(config):
     model = models[0]
     print("num params: {}".format(get_num_params()))
     evaluator = ForwardEvaluator(config, model)
-    graph_handler = GraphHandler(config, model)  # controls all tensors and variables in the graph, including loading /saving
-
+    graph_handler = GraphHandler(config, model)
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
     graph_handler.initialize(sess)
 
     num_batches = math.ceil(test_data.num_examples / config.batch_size)
     if 0 < config.test_num_batches < num_batches:
         num_batches = config.test_num_batches
-    e = evaluator.get_evaluation_from_batches(sess, tqdm(test_data.get_batches(config.batch_size, num_batches=num_batches), total=num_batches))
+    e = evaluator.get_evaluation_from_batches(sess,
+                                              tqdm(test_data.get_batches(config.batch_size, num_batches=num_batches),
+                                                   total=num_batches))
     print(e)
     if config.dump_answer:
         print("dumping answer ...")
