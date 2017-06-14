@@ -227,9 +227,9 @@ class Model(object):
                 self.concat_logits2 = concat_flat_logits2
                 self.na_prob = na_prob * na_prob2
 
-            yp = tf.reshape(flat_yp, [-1, M, JX])
-            yp2 = tf.reshape(flat_yp2, [-1, M, JX])
-            wyp = tf.nn.sigmoid(logits2)
+            yp = tf.reshape(flat_yp, [-1, M, JX], name="yp")
+            yp2 = tf.reshape(flat_yp2, [-1, M, JX], name="yp2")
+            wyp = tf.nn.sigmoid(logits2, name="wyp")
 
             self.tensor_dict['g1'] = g1
             self.tensor_dict['g2'] = g2

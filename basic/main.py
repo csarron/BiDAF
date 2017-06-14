@@ -1,5 +1,5 @@
 import argparse
-import json
+from  basic.freeze_model import freeze_graph
 import math
 import os
 import shutil
@@ -122,13 +122,20 @@ def _train(config):
                 acc = e_dev.acc
                 print("begin saving model...")
                 print(e_dev)
-                graph_handler.save(sess, global_step=global_step)
+                graph_handler.save(sess)
                 print("end saving model, dumping eval and answer...")
                 if config.dump_eval:
                     graph_handler.dump_eval(e_dev)
                 if config.dump_answer:
                     graph_handler.dump_answer(e_dev)
-                print("end dumping...")
+                print("end dumping")
+
+    print("begin freezing model...")
+    config.clear_device = False
+    config.input_path = graph_handler.save_path
+    config.output_path = "model"
+    freeze_graph(config)
+    print("model frozen at {}".format(config.output_path))
 
 
 def _test(config):
@@ -169,12 +176,6 @@ def _test(config):
             graph_handler.dump_eval(ei, path=path)
 
     print(e)
-    if config.dump_answer:
-        print("dumping answer ...")
-        graph_handler.dump_answer(e)
-    if config.dump_eval:
-        print("dumping eval ...")
-        graph_handler.dump_eval(e)
 
 
 def _forward(config):

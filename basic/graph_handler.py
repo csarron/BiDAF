@@ -17,7 +17,7 @@ class GraphHandler(object):
         self.model = model
         self.saver = tf.train.Saver(max_to_keep=config.max_to_keep)
         self.writer = None
-        self.save_path = os.path.join(config.save_dir, config.model_name)
+        self.save_path = os.path.join(config.save_dir, config.model_name, ".ckpt")
 
     def initialize(self, sess):
         sess.run(tf.global_variables_initializer())
@@ -27,9 +27,11 @@ class GraphHandler(object):
         if self.config.mode == 'train':
             self.writer = tf.summary.FileWriter(self.config.log_dir, graph=tf.get_default_graph())
 
-    def save(self, sess, global_step=None):
+    def save(self, sess, save_path=None):
         saver = tf.train.Saver(max_to_keep=self.config.max_to_keep)
-        saver.save(sess, self.save_path, global_step=global_step)
+        if save_path is None:
+            save_path = self.save_path
+        saver.save(sess, save_path)
 
     def _load(self, sess):
         config = self.config
