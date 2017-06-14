@@ -152,7 +152,7 @@ def _test(config):
 
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
     graph_handler.initialize(sess)
-    num_steps = math.ceil(test_data.num_examples / (config.batch_size * config.num_gpus))
+    num_steps = int(math.ceil(test_data.num_examples / (config.batch_size * config.num_gpus)))
     if 0 < config.test_num_batches < num_steps:
         num_steps = config.test_num_batches
 
@@ -200,7 +200,7 @@ def _forward(config):
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
     graph_handler.initialize(sess)
 
-    num_batches = math.ceil(test_data.num_examples / config.batch_size)
+    num_batches = int(math.ceil(test_data.num_examples / config.batch_size))
     if 0 < config.test_num_batches < num_batches:
         num_batches = config.test_num_batches
     e = evaluator.get_evaluation_from_batches(sess,
@@ -226,12 +226,12 @@ class Config(object):
         self.__dict__.update(entries)
 
 
-def _run():
-    args = _get_args()
-    with open(args.config_path, 'r') as fh:
-        config = Config(**json.load(fh))
-        main(config)
-
-
-if __name__ == "__main__":
-    _run()
+# def _run():
+#     args = _get_args()
+#     with open(args.config_path, 'r') as fh:
+#         config = Config(**json.load(fh))
+#         main(config)
+#
+#
+# if __name__ == "__main__":
+#     _run()
