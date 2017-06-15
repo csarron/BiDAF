@@ -171,11 +171,10 @@ def _test(config):
     for multi_batch in tqdm(test_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps,
                                                         cluster=config.cluster), total=num_steps):
         ei = evaluator.get_evaluation(sess, multi_batch)
-        print(ei)
         e = ei if e is None else e + ei
 
     print(e)
-    graph_handler.dump_eval(e, path=os.path.join(config.eval_dir, "test_answer.json"))
+    graph_handler.dump_answer(e, path=os.path.join(config.eval_dir, "test_answer.json"))
 
 
 def _forward(config):
