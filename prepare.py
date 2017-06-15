@@ -106,9 +106,8 @@ def prepare_each(args, data_type=None, start_ratio=0.0, stop_ratio=1.0, out_name
         sent_tokenize = lambda para: [para]
 
     source_path = os.path.join(data_path, data_type)
-    size = args.data_size
-    if size > 0:
-        source_path = extract_json(source_path, size)
+    if args.test_size > 0:
+        source_path = extract_json(source_path, args.test_size)
 
     source_data = json.load(open(source_path, 'r'))
 
@@ -227,7 +226,7 @@ def prepare_each(args, data_type=None, start_ratio=0.0, stop_ratio=1.0, out_name
 
 
 def prepare_data(args):
-    if args.data_size == 0:
+    if args.test_size == 0:
         prepare_each(args, train, out_name='train')
         prepare_each(args, dev, out_name='dev')
         copyfile('data/data_dev.json', 'data/data_test.json')
@@ -249,7 +248,7 @@ def get_args():
     parser.add_argument("--glove_dir", default=data_path)
     parser.add_argument("--glove_vec_size", default=100, type=int)
     parser.add_argument("--split", action='store_true')
-    parser.add_argument("--data_size", default=0, type=int)
+    parser.add_argument("--test_size", default=0, type=int)
 
     return parser.parse_args()
 

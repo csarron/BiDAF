@@ -9,6 +9,7 @@ flags = tf.app.flags
 # Names and directories
 flags.DEFINE_string("model_name", "basic", "Model name [basic]")
 flags.DEFINE_string("data_dir", "data", "Data dir [data]")
+flags.DEFINE_integer("test_size", 0, "Data size (number of questions) [0 means all]")
 flags.DEFINE_string("run_id", "0", "Run ID [0]")
 flags.DEFINE_string("out_base_dir", "data", "out base dir [data]")
 flags.DEFINE_string("forward_name", "single", "Forward name [single]")

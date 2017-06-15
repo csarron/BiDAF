@@ -115,7 +115,7 @@ class DataSet(object):
         batch_size_per_step = batch_size * num_batches_per_step
         batches = self.get_batches(batch_size_per_step, num_batches=num_steps, shuffle=shuffle, cluster=cluster)
         multi_batches = (tuple(zip(grouper(idxs, batch_size, shorten=True, num_groups=num_batches_per_step),
-                         data_set.divide(num_batches_per_step))) for idxs, data_set in batches)
+                                   data_set.divide(num_batches_per_step))) for idxs, data_set in batches)
         return multi_batches
 
     def get_empty(self):
@@ -156,8 +156,12 @@ def load_metadata(config, data_type):
 
 
 def read_data(config, data_type, ref, data_filter=None):
-    data_path = os.path.join(config.data_dir, "data_{}.json".format(data_type))
-    shared_path = os.path.join(config.data_dir, "shared_{}.json".format(data_type))
+    if config.test_size > 0:
+        suffix = "_{}".format(config.test_size)
+    else:
+        suffix = ""
+    data_path = os.path.join(config.data_dir, "data_{}{}.json".format(data_type, suffix))
+    shared_path = os.path.join(config.data_dir, "shared_{}{}.json".format(data_type, suffix))
     with open(data_path, 'r') as fh:
         data = json.load(fh)
     with open(shared_path, 'r') as fh:
@@ -185,7 +189,8 @@ def read_data(config, data_type, ref, data_filter=None):
         if config.finetune:
             shared['word2idx'] = {word: idx + 2 for idx, word in
                                   enumerate(word for word, count in word_counter.items()
-                                            if count > config.word_count_th or (config.known_if_glove and word in word2vec_dict))}
+                                            if count > config.word_count_th or (
+                                            config.known_if_glove and word in word2vec_dict))}
         else:
             assert config.known_if_glove
             assert config.use_glove_for_unk
@@ -210,7 +215,8 @@ def read_data(config, data_type, ref, data_filter=None):
     if config.use_glove_for_unk:
         # create new word2idx and word2vec
         word2vec_dict = shared['lower_word2vec'] if config.lower_word else shared['word2vec']
-        new_word2idx_dict = {word: idx for idx, word in enumerate(word for word in word2vec_dict.keys() if word not in shared['word2idx'])}
+        new_word2idx_dict = {word: idx for idx, word in
+                             enumerate(word for word in word2vec_dict.keys() if word not in shared['word2idx'])}
         shared['new_word2idx'] = new_word2idx_dict
         offset = len(shared['word2idx'])
         word2vec_dict = shared['lower_word2vec'] if config.lower_word else shared['word2vec']
@@ -248,12 +254,12 @@ def get_squad_data_filter(config):
 
         if config.data_filter == 'max':
             for start, stop in y:
-                    if stop[0] >= config.num_sents_th:
-                        return False
-                    if start[0] != stop[0]:
-                        return False
-                    if stop[1] >= config.sent_size_th:
-                        return False
+                if stop[0] >= config.num_sents_th:
+                    return False
+                if start[0] != stop[0]:
+                    return False
+                if stop[1] >= config.sent_size_th:
+                    return False
         elif config.data_filter == 'valid':
             if len(xi) > config.num_sents_th:
                 return False
@@ -274,6 +280,7 @@ def get_squad_data_filter(config):
             raise Exception()
 
         return True
+
     return data_filter
 
 
