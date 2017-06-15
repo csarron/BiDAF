@@ -174,7 +174,10 @@ def _test(config):
         e = ei if e is None else e + ei
 
     print(e)
-    graph_handler.dump_answer(e, path=os.path.join(config.eval_dir, "test_answer.json"))
+    print("dumping answer ...")
+    graph_handler.dump_answer(e)
+    print("dumping eval ...")
+    graph_handler.dump_eval(e)
 
 
 def _forward(config):
