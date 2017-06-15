@@ -70,7 +70,9 @@ def save_data(target_dir, data, shared, data_type):
     data_save_path = os.path.join(target_dir, "data_{}.json".format(data_type))
     shared_path = os.path.join(target_dir, "shared_{}.json".format(data_type))
     json.dump(data, open(data_save_path, 'w'))
+    print("saved to {}".format(data_save_path))
     json.dump(shared, open(shared_path, 'w'))
+    print("saved to {}".format(shared_path))
 
 
 def get_word2vec(args, word_counter):
@@ -97,12 +99,15 @@ def get_word2vec(args, word_counter):
     return word2vec_dict
 
 
-def prepare_each(args, data_type, start_ratio=0.0, stop_ratio=1.0, out_name="default", in_path=None):
+def prepare_each(args, data_type=None, start_ratio=0.0, stop_ratio=1.0, out_name="default"):
     sent_tokenize = nltk.sent_tokenize
     if not args.split:
         sent_tokenize = lambda para: [para]
 
-    source_path = in_path or os.path.join(data_path, data_type)
+    if data_type is None:
+        source_path = args.data_path
+    else:
+        source_path = os.path.join(data_path, data_type)
     source_data = json.load(open(source_path, 'r'))
 
     q, cq, y, rx, rcx, ids, idxs = [], [], [], [], [], [], []
@@ -114,6 +119,7 @@ def prepare_each(args, data_type, start_ratio=0.0, stop_ratio=1.0, out_name="def
     word_counter, char_counter, lower_word_counter = Counter(), Counter(), Counter()
     start_ai = int(round(len(source_data['data']) * start_ratio))
     stop_ai = int(round(len(source_data['data']) * stop_ratio))
+    print("processing json file...")
     for article_index, article in enumerate(tqdm(source_data['data'][start_ai:stop_ai])):
         xp, cxp = [], []
         pp = []
@@ -203,8 +209,9 @@ def prepare_each(args, data_type, start_ratio=0.0, stop_ratio=1.0, out_name="def
 
         if args.debug:
             break
-
+    print("getting word vectors...")
     word2vec_dict = get_word2vec(args, word_counter)
+    print("getting lower word vectors...")
     lower_word2vec_dict = get_word2vec(args, lower_word_counter)
 
     # add context here
@@ -214,20 +221,19 @@ def prepare_each(args, data_type, start_ratio=0.0, stop_ratio=1.0, out_name="def
               'word_counter': word_counter, 'char_counter': char_counter, 'lower_word_counter': lower_word_counter,
               'word2vec': word2vec_dict, 'lower_word2vec': lower_word2vec_dict}
 
-    print("saving ...")
     save_data(args.target_dir, data, shared, out_name)
 
 
 def prepare_data(args):
-    if args.mode == 'full':
+    if args.data_path is None:
         prepare_each(args, train, out_name='train')
         prepare_each(args, dev, out_name='dev')
         copyfile('data/data_dev.json', 'data/data_test.json')
         copyfile('data/shared_dev.json', 'data/shared_test.json')
+        prettify_json_files()
     else:
-        prepare_each(args, train, 0.0, args.train_ratio, out_name='train')
-        prepare_each(args, train, args.train_ratio, 1.0, out_name='dev')
-        prepare_each(args, dev, out_name='test')
+        prepare_each(args, out_name='test')
+        prettify_json(args.data_path)
 
 
 def get_args():
@@ -242,6 +248,7 @@ def get_args():
     parser.add_argument("--glove_dir", default=data_path)
     parser.add_argument("--glove_vec_size", default=100, type=int)
     parser.add_argument("--split", action='store_true')
+    parser.add_argument("--data_path", default=None)
 
     return parser.parse_args()
 
@@ -255,4 +262,3 @@ if __name__ == '__main__':
     maybe_download_data()
     prepare_data(get_args())
     print("all data prepared\n")
-    prettify_json_files()
