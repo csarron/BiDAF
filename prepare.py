@@ -222,7 +222,7 @@ def prepare_each(args, data_type=None, start_ratio=0.0, stop_ratio=1.0, out_name
               'word_counter': word_counter, 'char_counter': char_counter, 'lower_word_counter': lower_word_counter,
               'word2vec': word2vec_dict, 'lower_word2vec': lower_word2vec_dict}
 
-    save_data(data, shared, out_name, size)
+    save_data(data, shared, out_name, args.test_size)
 
 
 def prepare_data(args):
