@@ -4,3 +4,4 @@ out/
 *__pychche__*
 *.pyc
 *.pyo
+.DS_Store
