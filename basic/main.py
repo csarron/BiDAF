@@ -4,7 +4,7 @@ import math
 import os
 import shutil
 from pprint import pprint
-
+import time
 import tensorflow as tf
 from tqdm import tqdm
 import numpy as np
@@ -143,7 +143,11 @@ def _train(config):
 
 
 def _test(config):
+    t1 = time.time()
+    print("[{}] loading data..".format(t1))
     test_data = read_data(config, 'test')
+    t2 = time.time()
+    print("[{}] updating config..".format(t2))
     update_config(config, [test_data])
 
     _config_debug(config)
@@ -160,18 +164,34 @@ def _test(config):
     model = models[0]
     evaluator = MultiGPUF1Evaluator(config, models, tensor_dict=models[0].tensor_dict if config.vis else None)
     graph_handler = GraphHandler(config, model)
-
+    t3 = time.time()
+    print("[{}] creating session..".format(t3))
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
+    t4 = time.time()
+    print("[{}] initializing session..".format(t4))
     graph_handler.initialize(sess)
     num_steps = int(math.ceil(test_data.num_examples / (config.batch_size * config.num_gpus)))
     if 0 < config.test_num_batches < num_steps:
         num_steps = config.test_num_batches
 
     e = None
+    t5 = time.time()
+    print("[{}] begin evaluating..".format(t5))
+    count = 0
+    total_time = 0
     for multi_batch in tqdm(test_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps,
                                                         cluster=config.cluster), total=num_steps):
+        t_start = time.time()
         ei = evaluator.get_evaluation(sess, multi_batch)
+        t_end = time.time()
+        count += 1
+        total_time += t_end - t_start
+        print("[{}] single evaluation time: ".format(t_end - t_start))
         e = ei if e is None else e + ei
+
+    t6 = time.time()
+    print("[{}] finish evaluation".format(t6))
+    print("total time:{} for {} evaluations, avg:{}".format(total_time, count, total_time * 1.0 / count))
 
     print(e)
     print("dumping answer ...")
@@ -227,7 +247,6 @@ def _get_args():
 class Config(object):
     def __init__(self, **entries):
         self.__dict__.update(entries)
-
 
 # def _run():
 #     args = _get_args()
