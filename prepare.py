@@ -11,6 +11,7 @@ import zipfile
 from collections import Counter
 from shutil import copyfile
 from tqdm import tqdm
+from my.extract_data import extract_json
 from my.utils import get_word_span, get_word_idx, process_tokens, word_tokenize, prettify_json
 
 data_path = "data"
@@ -66,9 +67,9 @@ def maybe_download_data():
         nltk.download("punkt", download_dir=nltk_path)
 
 
-def save_data(target_dir, data, shared, data_type):
-    data_save_path = os.path.join(target_dir, "data_{}.json".format(data_type))
-    shared_path = os.path.join(target_dir, "shared_{}.json".format(data_type))
+def save_data(data, shared, data_type, size):
+    data_save_path = os.path.join(data_path, "data_{}_{}.json".format(data_type, size))
+    shared_path = os.path.join(data_path, "shared_{}_{}.json".format(data_type, size))
     json.dump(data, open(data_save_path, 'w'))
     print("saved to {}".format(data_save_path))
     json.dump(shared, open(shared_path, 'w'))
@@ -104,10 +105,11 @@ def prepare_each(args, data_type=None, start_ratio=0.0, stop_ratio=1.0, out_name
     if not args.split:
         sent_tokenize = lambda para: [para]
 
-    if data_type is None:
-        source_path = args.data_path
-    else:
-        source_path = os.path.join(data_path, data_type)
+    source_path = os.path.join(data_path, data_type)
+    size = args.data_size
+    if size > 0:
+        source_path = extract_json(source_path, size)
+
     source_data = json.load(open(source_path, 'r'))
 
     q, cq, y, rx, rcx, ids, idxs = [], [], [], [], [], [], []
@@ -221,24 +223,23 @@ def prepare_each(args, data_type=None, start_ratio=0.0, stop_ratio=1.0, out_name
               'word_counter': word_counter, 'char_counter': char_counter, 'lower_word_counter': lower_word_counter,
               'word2vec': word2vec_dict, 'lower_word2vec': lower_word2vec_dict}
 
-    save_data(args.target_dir, data, shared, out_name)
+    save_data(data, shared, out_name, size)
 
 
 def prepare_data(args):
-    if args.data_path is None:
+    if args.data_size == 0:
         prepare_each(args, train, out_name='train')
         prepare_each(args, dev, out_name='dev')
         copyfile('data/data_dev.json', 'data/data_test.json')
         copyfile('data/shared_dev.json', 'data/shared_test.json')
         prettify_json_files()
     else:
-        prepare_each(args, out_name='test')
-        prettify_json(args.data_path)
+        prepare_each(args, dev, out_name='test')
+        prettify_json_files()
 
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", default="full", type=str)
     parser.add_argument('-s', "--source_dir", default=data_path)
     parser.add_argument('-t', "--target_dir", default=data_path)
     parser.add_argument("--train_name", default=train)
@@ -248,7 +249,7 @@ def get_args():
     parser.add_argument("--glove_dir", default=data_path)
     parser.add_argument("--glove_vec_size", default=100, type=int)
     parser.add_argument("--split", action='store_true')
-    parser.add_argument("--data_path", default=None)
+    parser.add_argument("--data_size", default=0, type=int)
 
     return parser.parse_args()
 

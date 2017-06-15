@@ -61,6 +61,7 @@ def extract_json(input_json, size=100, seed=0):
     output_path = os.path.join(output_dir, output_name)
     json.dump(selected_data, open(output_path, 'w'))
     prettify_json(output_path)
+    return output_path
 
 
 if __name__ == '__main__':
