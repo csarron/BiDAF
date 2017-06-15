@@ -155,7 +155,7 @@ def load_metadata(config, data_type):
         return metadata
 
 
-def read_data(config, data_type, ref, data_filter=None):
+def read_data(config, data_type, data_filter=None):
     if config.test_size > 0:
         suffix = "_{}".format(config.test_size)
     else:
@@ -182,7 +182,7 @@ def read_data(config, data_type, ref, data_filter=None):
     print("Loaded {}/{} examples from {}".format(len(valid_idxs), num_examples, data_type))
 
     shared_path = config.shared_path or os.path.join(config.out_dir, "shared.json")
-    if not ref:
+    if not os.path.exists(shared_path):
         word2vec_dict = shared['lower_word2vec'] if config.lower_word else shared['word2vec']
         word_counter = shared['lower_word_counter'] if config.lower_word else shared['word_counter']
         char_counter = shared['char_counter']

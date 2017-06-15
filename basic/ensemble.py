@@ -7,7 +7,7 @@ from collections import defaultdict
 from operator import mul
 
 from tqdm import tqdm
-from squad.utils import get_phrase, get_best_span, get_span_score_pairs
+from my.utils import get_phrase, get_best_span, get_span_score_pairs
 
 
 def get_args():

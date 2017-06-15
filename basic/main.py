@@ -64,8 +64,8 @@ def _config_debug(config):
 
 def _train(config):
     data_filter = get_squad_data_filter(config)
-    train_data = read_data(config, 'train', config.load, data_filter=data_filter)
-    dev_data = read_data(config, 'dev', True, data_filter=data_filter)
+    train_data = read_data(config, 'train', data_filter=data_filter)
+    dev_data = read_data(config, 'dev', data_filter=data_filter)
     update_config(config, [train_data, dev_data])
 
     _config_debug(config)
@@ -143,7 +143,7 @@ def _train(config):
 
 
 def _test(config):
-    test_data = read_data(config, 'test', True)
+    test_data = read_data(config, 'test')
     update_config(config, [test_data])
 
     _config_debug(config)
@@ -182,7 +182,7 @@ def _test(config):
 
 def _forward(config):
     assert config.load
-    test_data = read_data(config, config.forward_name, True)
+    test_data = read_data(config, config.forward_name)
     update_config(config, [test_data])
 
     _config_debug(config)
