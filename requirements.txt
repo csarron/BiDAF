@@ -1,3 +1,5 @@
+memory_profiler
 #tensorflow-gpu>=1.1.0
 nltk
+psutil
 tqdm

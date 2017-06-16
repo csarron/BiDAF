@@ -15,6 +15,7 @@ from basic.model import get_multi_gpu_models
 from basic.trainer import MultiGPUTrainer
 from basic.read_data import read_data, get_squad_data_filter, update_config
 from my.tensorflow import get_num_params
+from memory_profiler import profile
 
 
 def main(config):
@@ -141,7 +142,7 @@ def _train(config):
     freeze_graph(config)
     print("model frozen at {}".format(config.output_path))
 
-
+@profile
 def _test(config):
     t1 = time.time()
     print("[{}] loading data..".format(t1))
@@ -190,7 +191,7 @@ def _test(config):
         answer_id = list(ei.id2answer_dict["scores"].keys())[0]
         answer = ei.id2answer_dict[answer_id]
         print("id: {}, answer: {}, correct: {}, time: {:6.4f}s"
-              .format(answer_id, answer.encode('ascii', 'ignore').decode('ascii'), ei.acc > 0.5, single_time))
+              .format(answer_id, answer.encode('ascii', 'ignore').decode('ascii'), int(ei.acc) == 1, single_time))
         sys.stdout.flush()
         e = ei if e is None else e + ei
 
