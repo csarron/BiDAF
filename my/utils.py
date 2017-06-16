@@ -234,7 +234,7 @@ def extract_json(input_json, size=100, seed=0):
     print("total questions: {}".format(question_size))
 
     random.seed(seed)
-    selected_indices = [random.randint(0, question_size) for _ in range(0, size)]
+    selected_indices = random.sample(range(0, question_size), size)
     print("selected_indices: {}".format(selected_indices))
 
     question_index = 0
@@ -296,6 +296,7 @@ def print_data_stats(input_json):
 
     print("total articles: {}".format(article_size))
     print("total paragraphs: {}".format(paragraph_size))
+    print("total questions: {}".format(question_size))
     print("context_string_lengths (sorted:{}".format(sorted(context_string_lengths)))
     print("question_string_lengths (sorted): {}".format(sorted(question_string_lengths)))
 
