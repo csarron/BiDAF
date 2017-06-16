@@ -248,7 +248,7 @@ def get_args():
     parser.add_argument("--glove_vec_size", default=100, type=int)
     parser.add_argument("--split", action='store_true')
     parser.add_argument("--test_size", default=0, type=int)
-    parser.add_argument("--prettify_json", action="store_false")
+    parser.add_argument("--prettify_json", action="store_true")
 
     return parser.parse_args()
 
