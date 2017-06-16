@@ -176,7 +176,7 @@ def _test(config):
 
     e = None
     t5 = time.time()
-    print("[{}] begin evaluating..".format(t5))
+    print("loading model takes {}s\n begin evaluating..".format(t5 - t3))
     count = 0
     total_time = 0
     for multi_batch in tqdm(test_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps,

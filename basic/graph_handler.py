@@ -1,14 +1,10 @@
 import gzip
 import json
-from json import encoder
 import os
-
-import tensorflow as tf
-
-from basic.evaluator import Evaluation, F1Evaluation
-from my.utils import short_floats
-
 import pickle
+import tensorflow as tf
+from basic.evaluator import Evaluation
+from my.utils import short_floats
 
 
 class GraphHandler(object):

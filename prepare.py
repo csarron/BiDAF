@@ -11,8 +11,7 @@ import zipfile
 from collections import Counter
 from shutil import copyfile
 from tqdm import tqdm
-from my.extract_data import extract_json
-from my.utils import get_word_span, get_word_idx, process_tokens, word_tokenize, prettify_json
+from my.utils import get_word_span, get_word_idx, process_tokens, word_tokenize, prettify_json, extract_json
 
 data_path = "data"
 data_version = "v1.1"

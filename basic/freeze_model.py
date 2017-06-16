@@ -28,7 +28,7 @@ def freeze_graph(config):
     graph = tf.get_default_graph()
     input_graph_def = graph.as_graph_def()
 
-    with tf.Session() as sess:
+    with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
         saver.restore(sess, checkpoint_file)
         print("model loaded")
         output_graph_def = graph_util.convert_variables_to_constants(
@@ -52,7 +52,7 @@ def freeze_graph(config):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--clear_device", type=bool, default=True,
+    parser.add_argument("--clear_device", action="store_false",
                         help="whether clear device or not, default is false")
     parser.add_argument("--input_path", type=str, default="data/basic/00/save/best.ckpt",
                         help="path to the output frozen model, default is `pwd`/data/basic/00/save/best.ckpt")
