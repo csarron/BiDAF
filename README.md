@@ -34,17 +34,17 @@ The training converges at ~18k steps, and it took ~4s per step (i.e. ~20 hours).
 
 Before training, it is recommended to first try the following code to verify everything is okay and memory is sufficient:
 ```
-python -m basic.cli --mode train --noload --debug
+python main.py --mode train --noload --debug
 ```
 
 Then to fully train, run:
 ```
-python -m basic.cli --mode train --noload
+python main.py --mode train --noload
 ```
 
 You can speed up the training process with optimization flags:
 ```
-python -m basic.cli --mode train --noload --len_opt --cluster
+python main.py --mode train --noload --len_opt --cluster
 ```
 You can still omit them, but training will be much slower.
 
@@ -52,12 +52,12 @@ You can still omit them, but training will be much slower.
 ## 3. Test
 To test, run:
 ```
-python -m basic.cli
+python main.py
 ```
 
 Similarly to training, you can give the optimization flags to speed up test (5 minutes on dev data):
 ```
-python -m basic.cli --len_opt --cluster
+python main.py --len_opt --cluster
 ```
 
 This command loads the most recently saved model during training and begins testing on the test data.
@@ -67,7 +67,7 @@ Note that the printed scores are not official (our scoring scheme is a bit harsh
 To obtain the official number, use the official evaluator (copied in `squad` folder) and the output json file:
 
 ```
-python squad/evaluate-v1.1.py $HOME/data/squad/dev-v1.1.json out/basic/00/answer/test-####.json
+python squad/evaluate.py $HOME/data/dev-v1.1.json out/basic/00/answer/test-####.json
 ```
 
 ### 3.1 Loading from pre-trained weights
@@ -79,40 +79,3 @@ python squad/evaluate-v1.1.py $HOME/data/squad/dev-v1.1.json out/basic/00/answer
 |          | EM (%) | F1 (%) |
 | -------- |:------:|:------:|
 | single   | 67.9   | 77.3   |
-
-<!--
-## Using Pre-trained Model
-
-If you would like to use pre-trained model, it's very easy! 
-You can download the model weights [here][save] (make sure that its commit id matches the source code's).
-Extract them and put them in `$PWD/out/basic/00/save` directory, with names unchanged.
-Then do the testing again, but you need to specify the step # that you are loading from:
-```
-python -m basic.cli --mode test --batch_size 8 --eval_num_batches 0 --load_step ####
-```
--->
-
-
-## Multi-GPU Training & Testing
-Our model supports multi-GPU training.
-We follow the parallelization paradigm described in [TensorFlow Tutorial][multi-gpu].
-In short, if you want to use batch size of 60 (default) but if you have 3 GPUs with 4GB of RAM,
-then you initialize each GPU with batch size of 20, and combine the gradients on CPU.
-This can be easily done by running:
-```
-python -m basic.cli --mode train --noload --num_gpus 3 --batch_size 20
-```
-
-Similarly, you can speed up your testing by:
-```
-python -m basic.cli --num_gpus 3 --batch_size 20 
-```
- 
-
-[multi-gpu]: https://www.tensorflow.org/versions/r0.11/tutorials/deep_cnn/index.html#training-a-model-using-multiple-gpu-cards
-[squad]: http://stanford-qa.com
-[paper]: https://arxiv.org/abs/1611.01603
-[worksheet]: https://worksheets.codalab.org/worksheets/0x37a9b8c44f6845c28866267ef941c89d/
-[minjoon]: https://seominjoon.github.io
-[minjoon-github]: https://github.com/seominjoon
-[v0.2.1]: https://github.com/allenai/bi-att-flow/tree/v0.2.1

@@ -1,6 +1,7 @@
 import numpy as np
+import os
 import tensorflow as tf
-
+from tensorflow.python.client import timeline
 from basic.read_data import DataSet
 from my.nltk_utils import span_f1
 from my.tensorflow import padded_reshape
@@ -266,6 +267,8 @@ class F1Evaluator(LabeledEvaluator):
         idxs, data_set = self._split_batch(batch)
         assert isinstance(data_set, DataSet)
         feed_dict = self._get_feed_dict(batch)
+        run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+        run_metadata = tf.RunMetadata()
         if self.config.na:
             global_step, yp, yp2, wyp, loss, na, vals = sess.run(
                 [self.global_step, self.yp, self.yp2, self.wyp, self.loss, self.na, list(self.tensor_dict.values())],
@@ -273,7 +276,7 @@ class F1Evaluator(LabeledEvaluator):
         else:
             global_step, yp, yp2, wyp, loss, vals = sess.run(
                 [self.global_step, self.yp, self.yp2, self.wyp, self.loss, list(self.tensor_dict.values())],
-                feed_dict=feed_dict)
+                feed_dict=feed_dict, options=run_options, run_metadata=run_metadata)
         y = data_set.data['y']
         if self.config.squash:
             new_y = []
@@ -333,7 +336,10 @@ class F1Evaluator(LabeledEvaluator):
                          correct, float(loss), f1s, id2answer_dict, tensor_dict=tensor_dict)
         if self.config.wy:
             e.dict['wyp'] = wyp.tolist()
-        return e
+
+        tl = timeline.Timeline(run_metadata.step_stats)
+        ctf = tl.generate_chrome_trace_format()
+        return e, ctf
 
     def _split_batch(self, batch):
         return batch
