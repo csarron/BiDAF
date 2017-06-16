@@ -1,0 +1,181 @@
+[1497596877.1372747] loading data..
+Loaded 100/100 examples from test
+[1497596877.8260055] updating config..
+[1497597006.270365] creating session..
+[1497597007.3909886] initializing session..
+Loading saved model from data/basic/00/save/best.ckpt
+loading model takes 63.23811173439026s
+ begin evaluating..
+id: 56bf10f43aeaaa14008c94ff, answer: San Francisco Bay Area, correct: False, time: 4.8559s
+id: 56d6f2960d65d2140019828a, answer: six, correct: True, time: 3.0310s
+id: 56bf5e7b3aeaaa14008c95f8, answer: EyeVision, correct: False, time: 1.8583s
+id: 56d9c049dc89441400fdb792, answer: North America, correct: True, time: 0.7093s
+id: 56bec6ac3aeaaa14008c93fd, answer: Six, correct: True, time: 0.4640s
+id: 573380e0d058e614000b5bea, answer: counties or powiats, correct: True, time: 2.9935s
+id: 57338255d058e614000b5c11, answer: Centrum, correct: True, time: 1.9930s
+id: 56de3ebc4396321400ee26e8, answer: conquest of Jerusalem, correct: False, time: 1.2695s
+id: 56e0bcc0231d4119001ac36d, answer: uka Tesla, correct: True, time: 1.5922s
+id: 56dfb5777aa994140058e025, answer: electrical arc light based illumination systems, correct: True, time: 1.0309s
+id: 56e0d6cf231d4119001ac423, answer: finance an electric lighting company, correct: False, time: 0.9516s
+id: 56e0fde0cd28a01900c673ec, answer: resonant frequency, correct: False, time: 0.6772s
+id: 56e10179cd28a01900c67413, answer: trans-Atlantic wireless telecommunications facility, correct: False, time: 0.4096s
+id: 56e10296cd28a01900c67424, answer: to complete the construction of Wardenclyffe, correct: True, time: 2.3119s
+id: 56e1097dcd28a01900c67491, answer: unsubstantiated rumors, correct: False, time: 2.1357s
+id: 56e10e73cd28a01900c674ec, answer: Van de Graaff generator, correct: True, time: 0.9352s
+id: 56e11d8ecd28a01900c675f1, answer: more than 48 hours, correct: True, time: 1.9886s
+id: 56e122dacd28a01900c67639, answer: eugenics, correct: True, time: 1.2445s
+id: 56e1c4fce3433e140042314e, answer: BPP, ZPP and RP, correct: True, time: 1.1176s
+id: 56e76b8337bdd419002c3f81, answer: twice, correct: True, time: 0.6151s
+id: 56e77cee00c9c71400d771aa, answer: lives of their disciples, correct: True, time: 0.7442s
+id: 56f826a7a6d7ea1400e17427, answer: recant his writings, correct: True, time: 1.4044s
+id: 56f827caa6d7ea1400e1743d, answer: permitted, correct: False, time: 1.1835s
+id: 56f84d33aef2371900625fb5, answer: the upper classes in general, correct: False, time: 2.3099s
+id: 56f86b44a6d7ea1400e175f7, answer: the translation, correct: True, time: 2.8124s
+id: 56f87e95aef237190062610a, answer: the structure and substance of his questions and answers concerning baptism in the Small Catechism, correct: False, time: 1.9952s
+id: 570d4a6bfed7b91900d45e13, answer: 1788, correct: True, time: 2.2458s
+id: 571077ecb654c5140001f90c, answer: Good Hope, correct: False, time: 1.9369s
+id: 57108d69b654c5140001f985, answer: 75,000 to 100,000, correct: False, time: 1.9227s
+id: 571094b7a58dae1900cd6a66, answer: education, correct: False, time: 1.6574s
+id: 57114b1a2419e31400955578, answer: ships, correct: True, time: 1.3685s
+id: 5711541350c2381900b54a70, answer: British, correct: True, time: 2.2925s
+id: 571c91c8dd7acb1400e4c10a, answer: dioxygen, correct: True, time: 1.5553s
+id: 571cc6f85efbb31900334de4, answer: 90.20 K (182.95 C, 297.31 F), correct: True, time: 1.8517s
+id: 5725cb4a89a1e219009abecb, answer: Parachutes, correct: True, time: 1.6181s
+id: 5725d94bec44d21400f3d69e, answer: Apollo 1 backup crew, correct: True, time: 1.3727s
+id: 5725e152271a42140099d2cd, answer: Apollo 5, correct: True, time: 1.6287s
+id: 5725cc38ec44d21400f3d5bc, answer: Treaty of Rome 1957 and the Maastricht Treaty 1992 (now: TFEU), correct: False, time: 3.1676s
+id: 5726a5525951b619008f78de, answer: 1997, correct: True, time: 2.0020s
+id: 5726b718dd62a815002e8dbe, answer: a customs union, correct: True, time: 7.2022s
+id: 5726b929f1498d1400e8e8ea, answer: 2003, correct: True, time: 7.2007s
+id: 57265e97708984140094c3c3, answer: Cestida, correct: True, time: 2.4689s
+id: 5725db98ec44d21400f3d6c7, answer: 1950s through the 1970s, correct: True, time: 1.3509s
+id: 5725f2c838643c19005aceef, answer: 2,500, correct: True, time: 4.2149s
+id: 5725f6e138643c19005acf19, answer: 115 F, correct: True, time: 2.9174s
+id: 57264a74708984140094c18c, answer: atra mors, correct: True, time: 1.4555s
+id: 57264f18f1498d1400e8dbb1, answer: November 1347, correct: False, time: 2.7973s
+id: 572673f5708984140094c69e, answer: Faulting and other deformational, correct: False, time: 2.4290s
+id: 57266dd4f1498d1400e8df7b, answer: modern, correct: True, time: 1.9935s
+id: 57267076708984140094c603, answer: Norman Foster, correct: True, time: 2.1319s
+id: 57267b65dd62a815002e86a8, answer: Roman Imperial rule, correct: False, time: 3.1747s
+id: 572689b6dd62a815002e8892, answer: Edinburgh, correct: True, time: 1.2995s
+id: 572680ac708984140094c841, answer: 2001, correct: True, time: 1.9652s
+id: 57269d68708984140094cbd9, answer: James Gamble, correct: True, time: 3.2287s
+id: 5726a0205951b619008f781f, answer: 2008, correct: True, time: 2.2557s
+id: 5726efdbdd62a815002e95c8, answer: William Hanna and Joseph Barbera, correct: True, time: 2.0527s
+id: 572741aaf1498d1400e8f53f, answer: $500,000, correct: True, time: 1.5244s
+id: 57273eecf1498d1400e8f520, answer: tolerant, correct: True, time: 1.2487s
+id: 5727404b708984140094db5c, answer: biased, correct: False, time: 2.3000s
+id: 5728fb002ca10214002dab6b, answer: waxy cuticle, correct: True, time: 1.8390s
+id: 5729fefbaf94a219006aa73b, answer: 50 years, correct: False, time: 1.9733s
+id: 5728f50baf94a219006a9e57, answer: civil disobedience defendants choose to make a defiant speech, or a speech explaining their actions, in allocution. In U.S. v. Burgos-Andujar, a defendant who was involved in a movement to stop military exercises by trespassing on U.S. Navy property argued to the court in allocution that "the ones who are violating the greater law are the members of the Navy". As a result, the judge increased her sentence from 40 to 60 days. This action was upheld because, according to the U.S. Court of Appeals for the First Circuit, her statement suggested a lack of remorse, an attempt to avoid responsibility for her actions, correct: False, time: 1.8410s
+id: 572758e0f1498d1400e8f6b1, answer: charter, correct: True, time: 1.3450s
+id: 57280e1aff5b5019007d9bf0, answer: Ossachite, correct: True, time: 2.1497s
+id: 57281bb84b864d190016449d, answer: Voters, correct: False, time: 1.3087s
+id: 5729d36b1d0469140077960a, answer: more than half, correct: True, time: 5.1074s
+id: 572808bf4b864d190016429c, answer: The Time of the Doctor", correct: False, time: 1.5607s
+id: 5728185f3acd2414000df45f, answer: The Day of the Doctor, correct: False, time: 2.1230s
+id: 572819864b864d190016447e, answer: Jon Pertwee, correct: True, time: 3.7328s
+id: 57281a952ca10214002d9dec, answer: 1970s, correct: False, time: 1.5834s
+id: 57283f014b864d19001647ec, answer: 1892, correct: True, time: 1.5409s
+id: 57285213ff5b5019007da181, answer: 28, correct: True, time: 1.2356s
+id: 57286bf84b864d19001649d4, answer: Saul Bellow, political philosopher, literary critic and author of the New York Times, correct: False, time: 1.5413s
+id: 57287e512ca10214002da3fb, answer: Tugh Temur, correct: True, time: 1.9342s
+id: 572883153acd2414000dfa73, answer: Ilkhanate, correct: True, time: 3.4134s
+id: 5728f9cf4b864d1900165169, answer: between June and September, correct: True, time: 1.7297s
+id: 572926086aef051400154ac4, answer: 844 system, correct: True, time: 1.7450s
+id: 57295a116aef051400154d48, answer: responsible for giving many red algae their distinctive red color, correct: False, time: 1.7727s
+id: 57296f3caf94a219006aa3fe, answer: In old or stressed chloroplasts, correct: True, time: 1.1891s
+id: 57296f85af94a219006aa407, answer: higher plants, correct: False, time: 1.3931s
+id: 5729729a1d0469140077948e, answer: collenchyma tissue, correct: True, time: 1.2060s
+id: 5729784b1d046914007794cb, answer: filaments, correct: False, time: 1.5581s
+id: 5729789b6aef051400154f6d, answer: two, correct: True, time: 1.4454s
+id: 57296f293f37b319004783a6, answer: MillerRabin primality test, correct: False, time: 1.7712s
+id: 57297d421d046914007794e5, answer: two, correct: True, time: 2.8626s
+id: 572985011d04691400779502, answer: Chebyshev, correct: True, time: 1.4717s
+id: 572f57c704bcaa1900d7686d, answer: Lake Constance, correct: True, time: 1.8500s
+id: 572f7b33947a6a140053c9a5, answer: Noord River, correct: True, time: 1.2213s
+id: 572facb0a23a5019007fc864, answer: three, correct: False, time: 2.3592s
+id: 572fd1c4947a6a140053cd05, answer: wrecking, correct: True, time: 1.4578s
+id: 572ff86004bcaa1900d76f68, answer: democracy, correct: True, time: 2.8418s
+id: 573028fa04bcaa1900d77287, answer: justice and prosperity, correct: True, time: 1.4365s
+id: 57308ddc396df919000961a8, answer: empty land, correct: True, time: 1.3516s
+id: 57309446396df919000961b8, answer: around 1700, correct: True, time: 1.7994s
+id: 573098c12461fd1900a9cee7, answer: mainline Protestant denomination, correct: True, time: 1.7634s
+id: 57309adb396df919000961ff, answer: sail loft on Dock Street, correct: True, time: 1.3531s
+id: 5730a9fa2461fd1900a9cf6f, answer: The Book of Discipline also recognizes the importance of the Chalcedonian Creed of the Council of Chalcedon. It upholds the concept of the "visible and invisible Church," meaning that all who are truly believers in every age belong to the holy Church invisible, correct: False, time: 1.8981s
+id: 5730cb0fb7151e1900c0154a, answer: Evangelical Lutheran Church in America, correct: False, time: 1.7096s
+id: 5733dd4f4776f419006613ac, answer: forceful, correct: True, time: 1.8656s
+id: 57378b141c456719005744a2, answer: global, correct: True, time: 3.0863s
+[1497597271.2700717] finish evaluation
+total time:200.83388757705688 for 100 evaluations, avg:2.0083388757705687
+test step 13400: accuracy=0.6800, f1=0.7480, loss=2.7308
+dumping answer ...
+dumping eval ...
+Filename: /mnt/GitRepos/BiDAF/basic/main.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+   145    145.5 MiB      0.0 MiB   @profile
+   146                             def _test(config):
+   147    145.5 MiB      0.0 MiB       t1 = time.time()
+   148    145.5 MiB      0.0 MiB       print("[{}] loading data..".format(t1))
+   149    177.0 MiB     31.6 MiB       test_data = read_data(config, 'test')
+   150    177.0 MiB      0.0 MiB       t2 = time.time()
+   151    177.0 MiB      0.0 MiB       print("[{}] updating config..".format(t2))
+   152    177.0 MiB      0.0 MiB       update_config(config, [test_data])
+   153                             
+   154    177.0 MiB      0.0 MiB       _config_debug(config)
+   155                             
+   156    177.0 MiB      0.0 MiB       if config.use_glove_for_unk:
+   157    177.0 MiB      0.0 MiB           word2vec_dict = test_data.shared['lower_word2vec'] if config.lower_word else test_data.shared['word2vec']
+   158    177.0 MiB      0.0 MiB           new_word2idx_dict = test_data.shared['new_word2idx']
+   159    177.0 MiB      0.0 MiB           idx2vec_dict = {idx: word2vec_dict[word] for word, idx in new_word2idx_dict.items()}
+   160    178.6 MiB      1.5 MiB           new_emb_mat = np.array([idx2vec_dict[idx] for idx in range(len(idx2vec_dict))], dtype='float32')
+   161    178.6 MiB      0.0 MiB           config.new_emb_mat = new_emb_mat
+   162                             
+   163                                 # pprint(config.__flags, indent=2)
+   164    221.8 MiB     43.2 MiB       models = get_multi_gpu_models(config)
+   165    221.8 MiB      0.0 MiB       model = models[0]
+   166    223.0 MiB      1.2 MiB       evaluator = MultiGPUF1Evaluator(config, models, tensor_dict=models[0].tensor_dict if config.vis else None)
+   167    226.1 MiB      3.1 MiB       graph_handler = GraphHandler(config, model)
+   168    226.1 MiB      0.0 MiB       t3 = time.time()
+   169    226.1 MiB      0.0 MiB       print("[{}] creating session..".format(t3))
+   170    291.9 MiB     65.9 MiB       sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
+   171    291.9 MiB      0.0 MiB       t4 = time.time()
+   172    291.9 MiB      0.0 MiB       print("[{}] initializing session..".format(t4))
+   173    507.5 MiB    215.6 MiB       graph_handler.initialize(sess)
+   174    507.5 MiB      0.0 MiB       num_steps = int(math.ceil(test_data.num_examples / (config.batch_size * config.num_gpus)))
+   175    507.5 MiB      0.0 MiB       if 0 < config.test_num_batches < num_steps:
+   176                                     num_steps = config.test_num_batches
+   177                             
+   178    507.5 MiB      0.0 MiB       e = None
+   179    507.5 MiB      0.0 MiB       t5 = time.time()
+   180    507.5 MiB      0.0 MiB       print("loading model takes {}s\n begin evaluating..".format(t5 - t3))
+   181    507.5 MiB      0.0 MiB       count = 0
+   182    507.5 MiB      0.0 MiB       total_time = 0
+   183    507.5 MiB      0.0 MiB       for multi_batch in tqdm(test_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps,
+   184    992.2 MiB    484.7 MiB                                                           cluster=config.cluster), total=num_steps):
+   185    992.2 MiB      0.0 MiB           t_start = time.time()
+   186    992.2 MiB      0.0 MiB           ei = evaluator.get_evaluation(sess, multi_batch)
+   187    992.2 MiB      0.0 MiB           t_end = time.time()
+   188    992.2 MiB      0.0 MiB           count += 1
+   189    992.2 MiB      0.0 MiB           single_time = t_end - t_start
+   190    992.2 MiB      0.0 MiB           total_time += single_time
+   191    992.2 MiB      0.0 MiB           answer_id = list(ei.id2answer_dict["scores"].keys())[0]
+   192    992.2 MiB      0.0 MiB           answer = ei.id2answer_dict[answer_id]
+   193    992.2 MiB      0.0 MiB           print("id: {}, answer: {}, correct: {}, time: {:6.4f}s"
+   194    992.2 MiB      0.0 MiB                 .format(answer_id, answer.encode('ascii', 'ignore').decode('ascii'), int(ei.acc) == 1, single_time))
+   195    992.2 MiB      0.0 MiB           sys.stdout.flush()
+   196    992.2 MiB      0.0 MiB           e = ei if e is None else e + ei
+   197                             
+   198    992.2 MiB      0.0 MiB       t6 = time.time()
+   199    992.2 MiB      0.0 MiB       print("[{}] finish evaluation".format(t6))
+   200    992.2 MiB      0.0 MiB       print("total time:{} for {} evaluations, avg:{}".format(total_time, count, total_time * 1.0 / count))
+   201                             
+   202    992.2 MiB      0.0 MiB       print(e)
+   203    992.2 MiB      0.0 MiB       print("dumping answer ...")
+   204    992.2 MiB      0.0 MiB       graph_handler.dump_answer(e)
+   205    992.2 MiB      0.0 MiB       print("dumping eval ...")
+   206    992.2 MiB      0.0 MiB       graph_handler.dump_eval(e)
+
+
