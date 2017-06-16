@@ -18,10 +18,6 @@ def mytqdm(list_, desc="", show=True):
     return list_
 
 
-def json_pretty_dump(obj, fh):
-    return json.dump(obj, fh, sort_keys=True, indent=2, separators=(',', ': '))
-
-
 def index(l, i):
     return index(l[i[0]], i[1:]) if len(i) > 1 else l[i[0]]
 
@@ -307,9 +303,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', "--print_data_stats")
     parser.add_argument('-e', "--extract_json", nargs='*')
+    parser.add_argument('-p', "--prettify_json", nargs='*')
 
     args = parser.parse_args()
     if args.print_data_stats:
         print_data_stats(args.print_data_stats)
     elif args.extract_json:
         extract_json(args.extract_json[0], int(args.extract_json[1]))
+    elif args.prettify_json:
+        for j in args.prettify_json:
+            prettify_json(j)

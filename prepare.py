@@ -230,9 +230,9 @@ def prepare_data(args):
         prepare_each(args, dev, out_name='dev')
         copyfile('data/data_dev.json', 'data/data_test.json')
         copyfile('data/shared_dev.json', 'data/shared_test.json')
-        prettify_json_files()
     else:
         prepare_each(args, dev, out_name='test')
+    if args.prettify_json:
         prettify_json_files()
 
 
@@ -248,6 +248,7 @@ def get_args():
     parser.add_argument("--glove_vec_size", default=100, type=int)
     parser.add_argument("--split", action='store_true')
     parser.add_argument("--test_size", default=0, type=int)
+    parser.add_argument("--prettify_json", action="store_false")
 
     return parser.parse_args()
 
