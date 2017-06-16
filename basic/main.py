@@ -1,5 +1,5 @@
 import argparse
-from  basic.freeze_model import freeze_graph
+from basic.freeze_model import freeze_graph
 import math
 import os
 import shutil
@@ -8,7 +8,7 @@ import time
 import tensorflow as tf
 from tqdm import tqdm
 import numpy as np
-
+import sys
 from basic.evaluator import ForwardEvaluator, MultiGPUF1Evaluator
 from basic.graph_handler import GraphHandler
 from basic.model import get_multi_gpu_models
@@ -185,8 +185,13 @@ def _test(config):
         ei = evaluator.get_evaluation(sess, multi_batch)
         t_end = time.time()
         count += 1
-        total_time += t_end - t_start
-        print("[{}] single evaluation time: ".format(t_end - t_start))
+        single_time = t_end - t_start
+        total_time += single_time
+        answer_id = list(ei.id2answer_dict["scores"].keys())[0]
+        answer = ei.id2answer_dict[answer_id]
+        print("id: {}, answer: {}, correct: {}, time: {:6.4f}s"
+              .format(answer_id, answer.encode('ascii', 'ignore').decode('ascii'), ei.acc > 0.5, single_time))
+        sys.stdout.flush()
         e = ei if e is None else e + ei
 
     t6 = time.time()
