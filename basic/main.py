@@ -159,7 +159,7 @@ def _test(config):
         new_emb_mat = np.array([idx2vec_dict[idx] for idx in range(len(idx2vec_dict))], dtype='float32')
         config.new_emb_mat = new_emb_mat
 
-    pprint(config.__flags, indent=2)
+    # pprint(config.__flags, indent=2)
     models = get_multi_gpu_models(config)
     model = models[0]
     evaluator = MultiGPUF1Evaluator(config, models, tensor_dict=models[0].tensor_dict if config.vis else None)
