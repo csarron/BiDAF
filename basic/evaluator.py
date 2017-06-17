@@ -350,6 +350,7 @@ class F1Evaluator(LabeledEvaluator):
         model_analyzer.print_model_analysis(
             tf.get_default_graph(),
             run_meta=run_metadata,
+            tfprof_cmd='op',
             tfprof_options=opts)
         # tl = timeline.Timeline(run_metadata.step_stats)
         # ctf = tl.generate_chrome_trace_format(show_memory=True)

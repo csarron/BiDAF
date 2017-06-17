@@ -156,7 +156,7 @@ def load_metadata(config, data_type):
 
 
 def read_data(config, data_type, data_filter=None):
-    if config.test_size > 0:
+    if data_type == "test" and config.test_size > 0:
         suffix = "_{}".format(config.test_size)
     else:
         suffix = ""
