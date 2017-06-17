@@ -356,7 +356,7 @@ class F1Evaluator(LabeledEvaluator):
                 tf.get_default_graph(),
                 run_meta=run_metadata,
                 tfprof_options=opts)
-            timeline_path = "timeline-{}.json".format(prof_path)
+            timeline_path = "{}-timeline.json".format(prof_path)
             tl = timeline.Timeline(run_metadata.step_stats)
             ctf = tl.generate_chrome_trace_format(show_memory=True)
             with open(timeline_path, 'w') as f:
