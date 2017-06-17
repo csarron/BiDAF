@@ -6,6 +6,7 @@ from basic.read_data import DataSet
 from my.nltk_utils import span_f1
 from my.tensorflow import padded_reshape
 from my.utils import argmax, get_phrase, get_best_span, get_best_span_wy
+from tensorflow.contrib.tfprof.python.tools.tfprof import model_analyzer
 
 
 class Evaluation(object):
@@ -257,11 +258,15 @@ class F1Evaluation(AccuracyEvaluation):
 class F1Evaluator(LabeledEvaluator):
     def __init__(self, config, model, tensor_dict=None):
         super(F1Evaluator, self).__init__(config, model, tensor_dict=tensor_dict)
+        self.count = 0
         self.yp2 = model.yp2
         self.wyp = model.wyp
         self.loss = model.loss
         if config.na:
             self.na = model.na_prob
+
+    def set_count(self, count):
+        self.count = count
 
     def get_evaluation(self, sess, batch):
         idxs, data_set = self._split_batch(batch)
@@ -337,9 +342,20 @@ class F1Evaluator(LabeledEvaluator):
         if self.config.wy:
             e.dict['wyp'] = wyp.tolist()
 
-        tl = timeline.Timeline(run_metadata.step_stats)
-        ctf = tl.generate_chrome_trace_format()
-        return e, ctf
+        timeline_path = os.path.join(self.config.timeline_dir,
+                                     "{}-timeline-{}.json".format(self.config.test_size, self.count))
+        opts = model_analyzer.PRINT_ALL_TIMING_MEMORY.copy()
+        opts['output'] = "timeline:outfile={}".format(timeline_path)
+
+        model_analyzer.print_model_analysis(
+            tf.get_default_graph(),
+            run_meta=run_metadata,
+            tfprof_options=opts)
+        # tl = timeline.Timeline(run_metadata.step_stats)
+        # ctf = tl.generate_chrome_trace_format(show_memory=True)
+        # with open(timeline_path, 'w') as f:
+        #     f.write(ctf)
+        return e
 
     def _split_batch(self, batch):
         return batch

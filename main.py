@@ -174,10 +174,9 @@ def _test(config):
     for multi_batch in tqdm(test_data.get_multi_batches(config.batch_size, config.num_gpus, num_steps=num_steps,
                                                         cluster=config.cluster), total=num_steps):
         t_start = time.time()
-        ei, ctf = evaluator.get_evaluation(sess, multi_batch)
+        evaluator.set_count(count)
+        ei = evaluator.get_evaluation(sess, multi_batch)
         t_end = time.time()
-        with open(os.path.join(config.timeline_dir, "time_line-{}.json".format(count)), 'w') as f:
-            f.write(ctf)
         count += 1
         single_time = t_end - t_start
         total_time += single_time
