@@ -272,8 +272,12 @@ class F1Evaluator(LabeledEvaluator):
         idxs, data_set = self._split_batch(batch)
         assert isinstance(data_set, DataSet)
         feed_dict = self._get_feed_dict(batch)
-        run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-        run_metadata = tf.RunMetadata()
+        run_options = None
+        run_metadata = None
+        if self.config.mode == 'test':
+            run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+            run_metadata = tf.RunMetadata()
+
         if self.config.na:
             global_step, yp, yp2, wyp, loss, na, vals = sess.run(
                 [self.global_step, self.yp, self.yp2, self.wyp, self.loss, self.na, list(self.tensor_dict.values())],
@@ -342,20 +346,21 @@ class F1Evaluator(LabeledEvaluator):
         if self.config.wy:
             e.dict['wyp'] = wyp.tolist()
 
-        timeline_path = os.path.join(self.config.timeline_dir,
-                                     "{}-timeline-{}.json".format(self.config.test_size, self.count))
-        opts = model_analyzer.PRINT_ALL_TIMING_MEMORY.copy()
-        opts['output'] = "timeline:outfile={}".format(timeline_path)
+        if self.config.mode == 'test':
+            prof_path = os.path.join(self.config.timeline_dir,
+                                         "prof{}-{}".format(self.config.test_size, self.count))
+            opts = model_analyzer.PRINT_ALL_TIMING_MEMORY.copy()
+            opts['dump_to_file'] = "{}.txt".format(prof_path)
 
-        model_analyzer.print_model_analysis(
-            tf.get_default_graph(),
-            run_meta=run_metadata,
-            tfprof_cmd='op',
-            tfprof_options=opts)
-        # tl = timeline.Timeline(run_metadata.step_stats)
-        # ctf = tl.generate_chrome_trace_format(show_memory=True)
-        # with open(timeline_path, 'w') as f:
-        #     f.write(ctf)
+            model_analyzer.print_model_analysis(
+                tf.get_default_graph(),
+                run_meta=run_metadata,
+                tfprof_options=opts)
+            timeline_path = "timeline-{}.json".format(prof_path)
+            tl = timeline.Timeline(run_metadata.step_stats)
+            ctf = tl.generate_chrome_trace_format(show_memory=True)
+            with open(timeline_path, 'w') as f:
+                f.write(ctf)
         return e
 
     def _split_batch(self, batch):
