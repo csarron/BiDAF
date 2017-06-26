@@ -360,7 +360,7 @@ class F1Evaluator(LabeledEvaluator):
             #     tfprof_options=opts)
             timeline_path = "{}-timeline.json".format(prof_path)
             tl = timeline.Timeline(run_metadata.step_stats)
-            ctf = tl.generate_chrome_trace_format(show_memory=True)
+            ctf = tl.generate_chrome_trace_format()
             with open(timeline_path, 'w') as f:
                 f.write(ctf)
         return e
