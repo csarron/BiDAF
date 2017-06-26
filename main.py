@@ -275,6 +275,7 @@ flags.DEFINE_string("answer_path", "", "Answer path []")
 flags.DEFINE_string("eval_path", "", "Eval path []")
 flags.DEFINE_string("load_path", "", "Load path []")
 flags.DEFINE_string("shared_path", "", "Shared path []")
+flags.DEFINE_bool("prof", True, "profiling testing? [True]")
 
 # Device placement
 flags.DEFINE_string("device", "/gpu:0", "default device for summing gradients. [/gpu:0]")

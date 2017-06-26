@@ -274,7 +274,8 @@ class F1Evaluator(LabeledEvaluator):
         feed_dict = self._get_feed_dict(batch)
         run_options = None
         run_metadata = None
-        if self.config.mode == 'test':
+        if self.config.mode == 'test' and self.config.prof:
+            print("profiling...")
             run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
             run_metadata = tf.RunMetadata()
 
@@ -346,7 +347,8 @@ class F1Evaluator(LabeledEvaluator):
         if self.config.wy:
             e.dict['wyp'] = wyp.tolist()
 
-        if self.config.mode == 'test':
+        if self.config.mode == 'test' and self.config.prof:
+            print("saving profiles...")
             prof_path = os.path.join(self.config.timeline_dir,
                                          "prof{}-{}".format(self.config.test_size, self.count))
             opts = model_analyzer.PRINT_ALL_TIMING_MEMORY.copy()
