@@ -350,14 +350,14 @@ class F1Evaluator(LabeledEvaluator):
         if self.config.mode == 'test' and self.config.prof:
             print("saving profiles...")
             prof_path = os.path.join(self.config.timeline_dir,
-                                         "prof{}-{}".format(self.config.test_size, self.count))
-            opts = model_analyzer.PRINT_ALL_TIMING_MEMORY.copy()
-            opts['dump_to_file'] = "{}.txt".format(prof_path)
-
-            model_analyzer.print_model_analysis(
-                tf.get_default_graph(),
-                run_meta=run_metadata,
-                tfprof_options=opts)
+                                     "profiling-{}-{}".format(self.config.test_size, self.count))
+            # opts = model_analyzer.PRINT_ALL_TIMING_MEMORY.copy()
+            # opts['dump_to_file'] = "{}.txt".format(prof_path)
+            #
+            # model_analyzer.print_model_analysis(
+            #     tf.get_default_graph(),
+            #     run_meta=run_metadata,
+            #     tfprof_options=opts)
             timeline_path = "{}-timeline.json".format(prof_path)
             tl = timeline.Timeline(run_metadata.step_stats)
             ctf = tl.generate_chrome_trace_format(show_memory=True)
